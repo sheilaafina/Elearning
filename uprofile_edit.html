@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Edit Profile</title>
+	<link rel="stylesheet" href="/Project_Elearning/css/tprofile.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<div class="row gutters">
+		<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+		<div class="card h-100">
+			<div class="card-body">
+				<div class="account-settings">
+					<div class="user-profile">
+						<div class="user-avatar">
+							<img src="assets/img/profilpic.webp" alt="Maxwell Admin">
+						</div>
+						<h5 id="user-name"></h5>
+						<h6 id="user-email"></h6>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+		<div class="card h-100">
+			<div class="card-body">
+				<div class="row gutters">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+						<h6 class="mb-2 text-primary">Personal Details</h6>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<div class="form-group">
+							<label for="fullName">Full Name</label>
+							<input type="text" class="form-control" id="fullname" placeholder="Enter full name">
+						</div>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<div class="form-group">
+							<label for="eMail">Email</label>
+							<input type="email" class="form-control" id="email" placeholder="Enter email">
+						</div>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<div class="form-group">
+							<label for="phone">Username</label>
+							<input type="text" class="form-control" id="username" placeholder="Enter username">
+						</div>
+					</div>
+				</div>
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+						<div class="text-right">
+							<button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
+							<button onclick="editprofile()" type="button" id="submit" name="submit" class="btn btn-primary">Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		</div>
+<script>
+
+
+	function editprofile() {
+		let token = document.cookie;
+		let splitToken = token.split(".");
+		let user = JSON.parse(atob(splitToken[1]));
+		let username = user["user"]
+		let password = user["passkey"]
+
+		let cust_username = document.getElementById("username").value
+		let cust_fullname = document.getElementById("fullname").value
+		let cust_email = document.getElementById("email").value
+
+		console.log(username, password)
+
+		var myHeaders = new Headers();
+		myHeaders.append("Authorization", "Basic" + btoa(username + ":" + password));
+		myHeaders.append("Content-Type", "application/json");
+
+		var raw = JSON.stringify({
+			"fullname": cust_fullname,
+			"email": cust_email,
+			"username": cust_username
+		});
+
+		var requestOptions = {
+			method: 'PUT',
+			headers: myHeaders,
+			body: raw,
+			redirect: 'follow'
+		};
+
+		fetch("http://127.0.0.1:5000/updateuser", requestOptions)
+			.then(response => response.text())
+			.then(result => {
+				alert("Profile had been updated successfully, please login again")
+				// window.location.href = "profile.html"
+				logout()
+			})
+			.catch(error => {
+				console.log('error', error)
+				alert("Failed update profile.")
+			});
+	}
+
+
+	function logout(){
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+    location.href="index.html"
+}
+		// function success(data) {
+		// 	alert("Successfully update your account")
+		// 	const inputs = document.querySelectorAll('#username, #fullname, #email');
+		// 	inputs.forEach(input => {
+		// 	input.value = '';
+		// }); }
+
+        function checkCookie() {
+			const token = document.cookie;
+			// console.log(token);
+			if (token !== "") {
+				// document.getElementById('loginbutton').style.display = "none"; untuk web yang bisa lihat tanpa login
+				const split = token.split(".");
+				let parsedToken = JSON.parse(atob(split[1]));
+				// console.log(parsedToken) }}
+				let fullname = parsedToken["fullname"]
+				let username = parsedToken["user"]
+				let email = parsedToken["email"]
+				// console.log(nama)
+
+				document.getElementById("user-name").innerHTML = fullname;
+				document.getElementById("user-email").innerHTML = email;
+			}}
+		
+		checkCookie()
+		</script>
+		
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width-device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="sie-edge" />
+    <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../Project_Elearning/css/ulogin.css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <!-- <form action="#"> -->
+            <div id="container-signup">
+                <h1>Create Account</h1>
+                <input id="fullname" type="text" placeholder="Name">
+                <input id="username" type="text" placeholder="Username">
+                <input id="email" type="email" placeholder="Email">
+                <input id="password" type="password" placeholder="Password">
+                <button onclick="signup()">Sign Up</button>
+            </div>
+                <!-- </form> -->
+        </div>
+        <div class="form-container sign-in-container">
+            <!-- <form action="#"> -->
+            <div id="container-signin">
+                <h1>Sign In</h1>
+                <input id="username2" type="text" placeholder="Username">
+                <input id="password2" type="password" placeholder="Password">
+                <button onclick="login()">Sign In</button>
+            <!-- </form> -->
+            </div>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend</h1>
+                    <p>Enter your personal details and start journey with us</p>
+                    <button class="ghost" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        //slider
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const container = document.getElementById('container');
+
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+
+        //login
+        function login() {
+            let username = document.getElementById('username2').value
+            let password = document.getElementById('password2').value
+            console.log(username, password);
+
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", "Basic " + btoa(username+':'+password) );
+            console.log(btoa(username+':'+password))
+
+            var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow'
+            };
+
+            fetch("http://127.0.0.1:5000/login", requestOptions)
+            .then(response => response.json())
+            .then((result) => { 
+                if (result.message==="Success!") {
+                    location.href = "uhome.html"
+                    setCookie("token" , result.token, 7)
+                    // document.cookie = "token=" + result.token + "; expires=Thu, 18 Dec 2023 12:00:00 UTC; path=/";
+                    console.log(result);
+                }
+
+
+                else {
+                    alert("Please enter your username/password correctly")
+                    const inputs = document.querySelectorAll('#username2, #password2');
+                    inputs.forEach(input => {
+                    input.value = '';
+                });
+                }
+            })
+            .catch(error => alert("Please enter your username/password correctly!")); }
+
+
+
+        function setCookie(cName, cValue, expDays) {
+            let date = new Date();
+            date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
+        }
+
+        //signup
+        function signup() {
+            let fullname = document.getElementById('fullname').value
+            let email = document.getElementById('email').value
+            let uname = document.getElementById('username').value
+            let pass = document.getElementById('password').value
+            console.log(fullname, email, uname, pass)
+
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", "Basic c2VsYToxMjM0");
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify({
+            "fullname": fullname,
+            "username": uname,
+            "password": pass,
+            "email": email
+            });
+
+            console.log(raw)
+
+            var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+            };
+
+            if(uname == "" || fullname == "" || email == "" || pass == "") {
+                alert("Please fill all the field")
+                // location.reload();
+                const inputs = document.querySelectorAll('#username, #password, #fullname, #email');
+                inputs.forEach(input => {
+                input.value = '';
+            });
+            }
+
+            else if(pass.length < 8 ) {
+                alert("Password should contain at least 8 characters")
+                // location.reload();
+                const inputs = document.querySelectorAll('#username, #password, #fullname, #email');
+                inputs.forEach(input => {
+                input.value = '';
+            });
+            }
+
+            else if(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)==false) {
+                alert("Please give a valid email address")
+                // location.reload();
+                const inputs = document.querySelectorAll('#username, #password, #fullname, #email');
+                inputs.forEach(input => {
+                input.value = '';
+            });
+            }
+
+            else if (/^[a-zA-Z]+$/.test(fullname)==false) {
+                alert("Fullname should only contain alphabet")
+                // location.reload();
+                const inputs = document.querySelectorAll('#username, #password, #fullname, #email');
+                inputs.forEach(input => {
+                input.value = '';
+            });
+            }
+
+            else {
+                fetch("http://127.0.0.1:5000/signup", requestOptions)
+                .then(response => response.json())
+                .then(result => success(result))
+                .catch(error => console.log('error', error))
+            }
+        }
+
+            function success(data) {
+                alert("Successfully create a new account! Please login using your account")
+                const inputs = document.querySelectorAll('#username, #password, #fullname, #email');
+                inputs.forEach(input => {
+                input.value = '';
+            });
+        }
+    </script>
+</body>
+</html>

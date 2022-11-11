@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Global Tags */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #D59F21;
+}
+
+span {
+    font-size: .9rem;
+    color: #757373;
+}
+
+h6 {
+    font-size: 1.1rem;
+    color: #D59F21;
+}
+
+/* Navigation */
+nav {
+    position: fixed;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1vw 7vw;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+nav img {
+    height: 70px;
+    cursor: pointer;
+}
+
+nav .navigation ul {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+nav .navigation ul li {
+    list-style: none;
+    margin-left: 35px;
+}
+
+nav .navigation ul li a{
+    text-decoration: none;
+    color: #000;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.3s
+}
+
+nav .navigation ul li a:hover {
+    color: #D59F21;
+}
+
+/* footer */
+footer {
+    padding: 8vw;
+    background-color: #D59F21;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+footer .footer-col {
+    padding-bottom: 40px;
+}
+
+footer h3 {
+    color: rgb(241, 240, 245);
+    font-weight: 600;
+    padding-bottom: 20px;
+}
+
+footer li {
+    list-style: none;
+    color: white;
+    padding: 10px 0;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+footer li:hover {
+    color: black;
+}
+
+footer p {
+    color: white;
+}
+
+footer .subscribe {
+    margin-top: 20px;
+}
+
+footer input {
+    width: 220px;
+    padding: 15px 12px;
+    background: black;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+footer .subscribe a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 12px 15px;
+    background-color: white;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+footer subscribe a.white {
+    color: rgb(255, 255, 255);
+    background-color:#D59F21;
+    transition: 0.3s ease;
+    margin: 5px;
+    text-decoration: none;
+}
+
+footer subscribe a.white:hover{
+    color: black;
+    background-color: white;
+    text-decoration: none;
+}
+
+#success_message{ display: none;}
+
+h1 {
+    text-align: center;
+}

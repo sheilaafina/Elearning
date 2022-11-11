@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>My Profile</title>
+	<link rel="stylesheet" href="../Project_Elearning/css/tprofile.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body onload="checkCookie()">
+	<div class="container">
+		<div class="row gutters">
+		<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+		<div class="card h-100">
+			<div class="card-body">
+				<div class="account-settings">
+					<div class="user-profile">
+						<div class="user-avatar">
+							<img src="../Project_Elearning/assets/img/profilpic.webp" alt="Maxwell Admin">
+						</div>
+						<h5 id="user-name"></h5>
+						<h6 id="user-email"></h6>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+		<div class="card h-100">
+			<div class="card-body">
+				<div class="row gutters">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+						<h6 class="mb-2 text-primary">Personal Details</h6>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<div class="form-group">
+							<label for="fullName">Full Name</label>
+							<p id="fullname"></p>
+						</div>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<div class="form-group">
+							<label for="email">Email</label>
+							<p id="email"></p>
+						</div>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<div class="form-group">
+							<label for="phone">Username</label>
+							<p id="username"></p>
+						</div>
+					</div>
+				</div>
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+						<!-- <div class="text-right">
+							<button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
+							<button type="button" id="submit2" name="submit" class="btn btn-outline-primary"><a href="tprofile_edit.html">Edit</a></button> -->
+							<!-- <button type="button" id="submit"><a href="edit_profile.html">Edit</a></button> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		<script>
+			// fetch data 
+			function checkCookie() {
+			const token = document.cookie;
+			// console.log(token);
+			if (token !== "") {
+				// document.getElementById('loginbutton').style.display = "none"; untuk web yang bisa lihat tanpa login
+				const split = token.split(".");
+				let parsedToken = JSON.parse(atob(split[1]));
+				// console.log(parsedToken) }}
+				let fullname = parsedToken["fullname"]
+				let username = parsedToken["user"]
+				let email = parsedToken["email"]
+				// console.log(nama)
+				let userLabel = document.getElementById('fullname')
+				let userLabel2 = document.getElementById('username')
+				let userLabel3 = document.getElementById('email');
+
+				document.getElementById("username").innerHTML = username;
+				document.getElementById("fullname").innerHTML = fullname;
+				document.getElementById("email").innerHTML = email;
+				document.getElementById("user-name").innerHTML = fullname;
+				document.getElementById("user-email").innerHTML = email;
+			}}
+		</script>
+</body>
+</html>

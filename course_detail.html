@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coursela-Detail</title>
+    <link rel="stylesheet" href="../Project_Elearning/css/course_detail.css">
+    <link rel="icon" type="image/x-icon" href="assets/img/logo2.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body onload="getcourse()">
+    <!-- Navigation -->
+    <!-- <nav>
+        <img src="../Elearning2/assets/img/logo.png" alt="coursela logo">
+        <div class="navigation sticky-top">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Courses</a></li>
+                <li><a href="#">Teacher</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li id="logout" onclick="logout()">Logout</li>
+            </ul>
+        </div>
+    </nav> -->
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <img src="../Elearning2/assets/img/logo.png" class="navbar-brand" alt="coursela logo">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="#">Course</a>
+                <a class="nav-link" href="#">Teacher</a>
+                <a class="nav-link" href="#">Contacts</a>
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Join Us
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                          <li><a class="dropdown-item" href="ulogin.html">Student</a></li>
+                          <li><a class="dropdown-item" href="tlogin.html">Teacher</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+            </div>
+          </div>
+        </div>
+    </nav>
+      <div class="container">
+        <div class="row" id="body"></div>
+      </div>
+    <footer>
+        <div class="footer-column">
+            <h3>Top Products</h3>
+            <li>Manage Reputation</li>
+            <li>Power Tools</li>
+            <li>Managed Website</li>
+            <li>Marketing Service</li>
+        </div>
+        <div class="footer-column">
+            <h3>Top Products</h3>
+            <li>Manage Reputation</li>
+            <li>Power Tools</li>
+            <li>Managed Website</li>
+            <li>Marketing Service</li>
+        </div>
+        <div class="footer-column">
+            <h3>Top Products</h3>
+            <li>Manage Reputation</li>
+            <li>Power Tools</li>
+            <li>Managed Website</li>
+            <li>Marketing Service</li>
+        </div>
+        <div class="footer-column">
+            <h3>Top Products</h3>
+            <li>Manage Reputation</li>
+            <li>Power Tools</li>
+            <li>Managed Website</li>
+            <li>Marketing Service</li>
+        </div>
+        <div class="footer-col">
+            <h3>Newsletter</h3>
+            <p>You can trust us. We only send free promos.</p>
+            <div class="subscribe">
+                <input type="text" placeholder="Your Email Address">
+                <a href="#" class="white">SUBSCRIBE</a>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script>
+        function getcourse() {
+
+            let linkURL = String(location.search)
+            let sliceUjung = linkURL.split("=")
+            let valueUjung = sliceUjung[1]
+            console.log(linkURL)
+            console.log(sliceUjung) 
+            console.log(valueUjung)
+
+            let requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+            };
+
+            fetch(`http://127.0.0.1:5000/coursedetail/${valueUjung}`, requestOptions)
+            .then(response => response.json())
+            .then(result => 
+            {
+
+            document.getElementById("body").innerHTML =    
+            `<div class="card mx-3 my-3" style="width: 18rem;">
+                        <div class="card-body">
+                            <img src="../Project_Elearning/assets/img/course${result.ID}.jpg" alt="">
+                            <span id="item${result.ID}" hidden>item${result.ID}</span>
+                        <h5 class="card-title">${result.Course}</h5>
+                        <p class="card-text">${result.Description}</p>
+                        <button class="btn btn-primary" onclick="enroll(${result.ID})">Enroll</button>
+                        </div>
+                     </div>`;
+           
+                        
+                    })
+            .catch(error => console.log('error', error));
+                    }
+
+          function enroll(id) {
+            alert("You must login to enroll") }
+            // let token = document.cookie;
+            // let splitToken = token.split(".");
+            // let user = JSON.parse(atob(splitToken[1]));
+            // let username = user["user"]
+            // let password = user["passkey"]
+            // let user_id = user["user_id"]
+            // let course_id = id
+
+            // var myHeaders = new Headers();
+            // myHeaders.append("Authorization", "Basic " + btoa(username+':'+password));
+            // myHeaders.append("Content-Type", "application/json");
+
+            // var raw = JSON.stringify({
+            // "course_id": course_id
+            // });
+
+            // var requestOptions = {
+            // method: 'POST',
+            // headers: myHeaders,
+            // body: raw,
+            // redirect: 'follow'
+            // };
+
+            // fetch("http://127.0.0.1:5000/enroll", requestOptions)
+            // .then(response => response.text())
+            // .then(result => alert("Enrolled"))
+            // .catch(error => alert("Please login first to enroll"));
+            // // .catch(error => console.log('error', error));
+            //         }
+
+            function getItemById() {
+
+            let linkURL = String(location.search)
+            let sliceUjung = linkURL.split("=")
+            let valueUjung = sliceUjung[1]
+            console.log(linkURL)
+            console.log(sliceUjung) 
+            console.log(valueUjung)
+
+            }
+            getItemById()
+    </script>
+</body>
+</html>

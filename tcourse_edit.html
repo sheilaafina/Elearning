@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coursela</title>
+    <link rel="stylesheet" href="/Project_Elearning/css/tcourse_create.css">
+    <link rel="icon" type="image/x-icon" href="assets/img/logo2.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+</head>
+<body onload="test()">
+     <!-- Navigation -->
+    <!-- <nav>
+        <img src="../Elearning2/assets/img/logo.png" alt="coursela logo">
+        <div class="navigation">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Courses</a></li>
+                <li><a href="#">Teacher</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav> -->
+    <div class="container mt-4">
+        <h1>Edit Course</h1>
+          <div id="book-form">
+            <div class="form-group">
+              <label for="title">Course Title</label>
+              <input type="text" id="title" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="author">Institution</label>
+              <input type="text" id="inst" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="isbn">Level</label>
+              <input type="text" id="level" class="form-control">
+            </div>
+            <div class="form-group"> 
+                <label class="col-md-4 control-label">Topics</label>
+                  <div class="col-md-4 selectContainer">
+                  <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                  <select id="topics" name="state" class="form-control selectpicker" >
+                    <option>Please select the topic</option>
+                    <option >Computer Science</option>
+                    <option >Digital Marketing</option>
+                    <option >UI/UX Design</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group"> 
+                <label class="col-md-4 control-label">Prequisite</label>
+                  <div class="col-md-4 selectContainer">
+                  <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                  <select name="state" id="courses" class="form-control selectpicker">
+                    <option value="null">Please select the prerequisite(if there's one)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+                <label for="isbn">Description</label>
+                <input type="text" id="desc" class="form-control">
+            </div>
+            <br>
+            <input type="submit" onclick="update()" value="Add Course" class="btn btn-primary btn-block">
+        </div>
+      </div>
+      <br>
+    
+    <footer>
+        <div class="footer-column">
+            <h3>Top Products</h3>
+            <li>Manage Reputation</li>
+            <li>Power Tools</li>
+            <li>Managed Website</li>
+            <li>Marketing Service</li>
+        </div>
+        <div class="footer-column">
+            <h3>Top Products</h3>
+            <li>Manage Reputation</li>
+            <li>Power Tools</li>
+            <li>Managed Website</li>
+            <li>Marketing Service</li>
+        </div>
+        <div class="footer-column">
+            <h3>Top Products</h3>
+            <li>Manage Reputation</li>
+            <li>Power Tools</li>
+            <li>Managed Website</li>
+            <li>Marketing Service</li>
+        </div>
+        <div class="footer-column">
+            <h3>Top Products</h3>
+            <li>Manage Reputation</li>
+            <li>Power Tools</li>
+            <li>Managed Website</li>
+            <li>Marketing Service</li>
+        </div>
+        <div class="footer-col">
+            <h3>Newsletter</h3>
+            <p>You can trust us. We only send free promos.</p>
+            <div class="subscribe">
+                <input type="text" placeholder="Your Email Address">
+                <a href="#" class="white">SUBSCRIBE</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+      function test() {
+        var requestOptions = {
+            method: 'GET',
+          };
+          
+          fetch("http://127.0.0.1:5000/allcourse", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+              var arr = []
+              arr = result
+              console.log(arr) 
+              course = document.getElementById('courses')
+              for (i=0;i<arr.length;i++) {
+                course.innerHTML += 
+                `
+                <option value="${arr[i].ID}">${arr[i].Course}</option>
+                `
+              }}
+              )
+            .catch(error => console.log('error', error));
+        }
+
+      function update() {
+        let linkURL = String(location.search)
+        let sliceUjung = linkURL.split("=")
+        let valueUjung = sliceUjung[1]
+
+        let token = document.cookie;
+        let splitToken = token.split(".");
+        let user = JSON.parse(atob(splitToken[1]));
+        let username = user["user"]
+        let password = user["passkey"]
+
+        let title = document.getElementById('title').value
+        let institution = document.getElementById('inst').value
+        let description = document.getElementById('desc').value
+        let level = document.getElementById('level').value
+        let subject_id = document.getElementById('topics').value
+        let precourse = document.getElementById('courses').value
+
+        console.log(title)
+
+        let myHeaders = new Headers();
+        myHeaders.append("Authorization", "Basic " + btoa(username+':'+password));
+        myHeaders.append("Content-Type", "application/json");
+
+        if (subject_id == "Computer Science") {
+          subject_id = 1
+        }
+        else if (subject_id == "Digital Marketing") {
+          subject_id = 2
+        }
+        else if (subject_id == "UI/UX Design") {
+          subject_id = 3
+        };
+
+        if (precourse == "null") {
+          precourse = null
+        }
+
+        else {
+          precourse=precourse
+        };
+
+        let raw = JSON.stringify({
+        "name": title,
+        "description": description,
+        "institution": institution,
+        "level": level,
+        "subject_id": subject_id,
+        "precourse": precourse
+        });
+
+        console.log(raw)
+
+        let requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        fetch(`http://127.0.0.1:5000/updatecourse/${valueUjung}`, requestOptions)
+        .then(response => response.json())
+        .then(result => alert("Your course data has been updated"))
+        const inputs = document.querySelectorAll('#title, #inst, #desc, #level, #topics, #courses');
+                    inputs.forEach(input => {
+                    input.value = '';
+                }); }
+        // .catch(error => console.log('error', error));}
+
+    </script>
+</body>
+</html>
